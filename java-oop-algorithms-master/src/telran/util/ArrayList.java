@@ -225,7 +225,30 @@ public class ArrayList<T> implements List<T> {
 	}
 
 
+	public int lastIndexOf(Predicate<T> predicate) {
 
+		int res = -1;
+
+		int index = size - 1;
+		while (index >= 0 && res == -1) {
+			if(predicate.test(array[index])) {
+				res = index;
+			}
+			index--;
+		}
+		return res;
+	}
+
+	public boolean removeIf(Predicate<T> predicate) {
+		int startSize = size;
+		for(int i = size - 1; i >= 0; i--) {
+			if(predicate.test(array[i])) {
+				remove(i);
+			}
+		}
+		return startSize != size;
+	}
+}
 
 
 
