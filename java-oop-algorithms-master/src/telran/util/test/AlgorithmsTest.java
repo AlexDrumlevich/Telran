@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 
 
-class ArrayListTest {
+class AlgorithmsTest {
 private static final int BIG_LENGTH = 100000;
 List<Integer> list;
 Integer[] numbers = {10, -20, 7, 50, 100, 30};
@@ -170,7 +170,7 @@ void setUp() {
 		//list.sort((a, b) -> evenOddCompare(a, b));
 		
 			//Lambda: method reference
-		list.sort(ArrayListTest::evenOddCompare);
+		list.sort(AlgorithmsTest::evenOddCompare);
 		assertArrayEquals(expected, list.toArray(new Integer[0]));
 	}
 	
