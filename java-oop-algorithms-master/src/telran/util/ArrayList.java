@@ -9,6 +9,8 @@ import javax.swing.plaf.synth.SynthUI;
 public class ArrayList<T> implements List<T> {
 	private static final int DEFAULT_CAPACITY = 16;
 	private T[] array;
+	
+	//count of elements in array (!!!Not array length)
 	private int size;
 
 	@SuppressWarnings("unchecked")
@@ -48,7 +50,11 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public T remove(int index) {
 		T res = array[index];
-
+		
+		//!!! arraycopy take address of start element to copy (array, index + 1), destination (adress 
+		//where to copy:  array, index (we shift back on one element, so we rewrite that one element)
+		// and size: count of elements (size - index - 1) for ex: we delete index 5, so we need to 
+		// copy since 5 index 
 		System.arraycopy(array, index + 1, array, index, size - index - 1);
 		size--;
 		return res;
@@ -210,6 +216,7 @@ public class ArrayList<T> implements List<T> {
 
 	//PREDICATE
 
+	//return index of first satisfaction to condition gets in Predicate
 	public int indexOf(Predicate<T> predicate) {
 		//return -1 if Predicate condition won`t be executed 
 		int res = -1;
@@ -224,12 +231,14 @@ public class ArrayList<T> implements List<T> {
 		return res;
 	}
 
-
+	//return index of last satisfaction to condition gets in Predicate
 	public int lastIndexOf(Predicate<T> predicate) {
 
 		int res = -1;
 
 		int index = size - 1;
+		// index starts from the end, while:
+		// 1. index doesn`t go below zero and 2. index hasn`t found yet    
 		while (index >= 0 && res == -1) {
 			if(predicate.test(array[index])) {
 				res = index;
@@ -239,15 +248,58 @@ public class ArrayList<T> implements List<T> {
 		return res;
 	}
 
+	//remove all elements that satisfies to condition gets in Predicate
+	
+	//!!! Not do do like that for(int i = 1; i < 0; i++) { if predicate {i++} ...}
 	public boolean removeIf(Predicate<T> predicate) {
 		int startSize = size;
 		for(int i = size - 1; i >= 0; i--) {
 			if(predicate.test(array[i])) {
+				//!!! using remove takes much time (each time it copies)
 				remove(i);
 			}
 		}
+		
+		//or using while:
+		/*
+		 int i = 0;
+		 while(i < size) {
+		 	if(predicate.test(array[i])) {
+		 		remove(i);
+		 		//here we not increment i because of array indexes shifting
+		 	} else {
+		 		i ++;
+		 	}
+		 }
+		 */
+		
 		return startSize != size;
 	}
+	
+	
+	
+	
+	//remove all elements that satisfies to condition gets in Predicate
+	//much better way 
+	public boolean removeIfAnotherWay(Predicate<T> predicate) {
+		int startSize = size;
+		int index = 0;
+		for(int i = 0; i < startSize; i++) {
+			//if we don`t need to remove, we will add it in the beginning
+			//as a result we get from the beginning elements witch we shouldn`t delete and in the end
+			//elements witch should be deleted 
+			if(!predicate.test(array[i])) {
+				//
+				array[index++] = array[i];
+			}
+		}
+		//in the end we just set size where elements witch we shouldn`t delete 
+		size = index;
+		
+		return startSize != size;
+	}
+	
+	
 }
 
 

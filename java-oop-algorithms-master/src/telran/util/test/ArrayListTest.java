@@ -6,8 +6,8 @@ import java.lang.reflect.Array;
 import org.junit.jupiter.api.BeforeEach;
 
 import telran.util.*;
-import telran.util.test.Comparetors.EvenOddComparator;
-import telran.util.test.Comparetors.PersonsAgeComparator;
+import telran.util.test.Comparators.EvenOddComparator;
+import telran.util.test.Comparators.PersonsAgeComparator;
 import telran.util.test.Models.Person;
 
 import org.junit.jupiter.api.Test;
@@ -145,7 +145,6 @@ void setUp() {
 		
 		assertArrayEquals(expected,
 				persons.toArray(new Person[0]));
-		
 	}
 	@Test
 	void testEvenOddSorting() {
@@ -170,6 +169,8 @@ void setUp() {
 		//list.sort((a, b) -> evenOddCompare(a, b));
 		
 			//Lambda: method reference
+			//evenOddCompare - method from ArrayListTest class
+			// it must accept for ex: (a, b) if we use sort
 		list.sort(ArrayListTest::evenOddCompare);
 		assertArrayEquals(expected, list.toArray(new Integer[0]));
 	}
@@ -183,7 +184,7 @@ void setUp() {
  	}
 	
 	
-	
+	//PREDICATE USING
 	@Test
  	void testIndexOfPredicate()  {
  		assertEquals(1, list.indexOf(a -> a < 0));
@@ -192,8 +193,6 @@ void setUp() {
  		//condition - element 1. odd    2. more then 7
  		assertEquals(-1, list.indexOf(a -> a % 2 != 0 && a > 7));
  	}
- 	
-	
 	@Test
 	void testLastIndexOfPredicate() {
 		assertEquals(4, list.lastIndexOf(a -> a > 30));
@@ -206,6 +205,8 @@ void setUp() {
 	
 	
  	
+	
+	
 	private void runTest(Integer[] expected) {
 		int size = list.size() ;
 		Integer [] actual = new Integer[expected.length];
