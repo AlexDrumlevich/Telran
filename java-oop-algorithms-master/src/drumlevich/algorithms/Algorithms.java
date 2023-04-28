@@ -8,7 +8,6 @@ public class Algorithms {
 			//O[n]
 		public static void sortShortPositive(short [] array) {
 			int [] helper = new int[Short.MAX_VALUE];
-			
 			//pass throw array first time 
 			//helper[index] => count of occurrences for number index in array
 			//helper[1000] = 2 => number 1000 occurs twice in the source array
@@ -25,6 +24,22 @@ public class Algorithms {
 			for(int i = 0; i < helper.length; i++) {
 				for(int j = 0; j < helper[i]; j++) {
 					array[ind++] = (short) i;
+				}
+			}
+		}
+		
+		public static void bubbleSortShortsPositive(short [] array) {
+			
+			boolean wasFlipped = true;
+			for(int i = 0; i < array.length - 1 && wasFlipped; i++) {
+				wasFlipped = false;
+				for(int j = 0; j < array.length - 1 - i; j++) {
+					if(array[j] > array[j + 1]) {
+						short tmp = array[j];
+						array[j] = array[j + 1];
+						array[j + 1] = tmp;
+						wasFlipped = true;
+					}
 				}
 			}
 		}
