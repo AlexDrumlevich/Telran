@@ -139,7 +139,31 @@ private void createArraysForTest(int size) {
 	}
 	
 	
+	//binary searching tests
+	@Test
+	void testBinarySearchWithExpandedReturn() {
+		Short[] array3 = {-100, -100, -20, -40, -1, 1, 1, 1, 20, 80, 100, 100, 200};
+		Short[] array4 = {-40, -40, -6, 1, 2, 3, 40};
+		Short[] array5 = {-30, 1, 2, 3, 40, 40};
+		
+		assertEquals(0, Algorithms.binarySearchWithExpandedReturn(array3, Short.valueOf((short) -100), Comparator.naturalOrder()));
+		assertEquals(12, Algorithms.binarySearchWithExpandedReturn(array3, Short.valueOf((short) 200), Comparator.naturalOrder()));
+		
+		assertEquals(-1, Algorithms.binarySearchWithExpandedReturn(array3, Short.valueOf((short) -102), Comparator.naturalOrder()));
+		assertNotEquals(1, Algorithms.binarySearchWithExpandedReturn(array3, Short.valueOf((short) -100), Comparator.naturalOrder()));
+		
+		assertEquals(3, Algorithms.binarySearchWithExpandedReturn(array4, Short.valueOf((short) 1), Comparator.naturalOrder()));
+		assertEquals(-4, Algorithms.binarySearchWithExpandedReturn(array4, Short.valueOf((short) 0), Comparator.naturalOrder()));
+		assertEquals(6, Algorithms.binarySearchWithExpandedReturn(array4, Short.valueOf((short) 40), Comparator.naturalOrder()));
+		assertNotEquals(-1, Algorithms.binarySearchWithExpandedReturn(array4, Short.valueOf((short) 40), Comparator.naturalOrder()));
+		
+		assertEquals(4, Algorithms.binarySearchWithExpandedReturn(array5, Short.valueOf((short) 40), Comparator.naturalOrder()));
+		assertEquals(-7, Algorithms.binarySearchWithExpandedReturn(array5, Short.valueOf((short) 50), Comparator.naturalOrder()));
+		assertNotEquals(0, Algorithms.binarySearchWithExpandedReturn(array5, Short.valueOf((short) 1), Comparator.naturalOrder()));
+		assertNotEquals(2, Algorithms.binarySearchWithExpandedReturn(array5, Short.valueOf((short) 1), Comparator.naturalOrder()));
 
+	}
+	
 
 	
 }
