@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import drumlevich.algorithms.Algorithms;
 
@@ -49,18 +50,46 @@ private void createArraysForTest(int size) {
 
 	@Test
 	void testIsSum2() {
-	assertTrue(Algorithms.isSum2(numbers, 10));
-	assertTrue(Algorithms.isSum2(numbers, 0));
-	assertTrue(Algorithms.isSum2(numbers, 130));
+	//sum can`t be negative	
+	assertTrue(Algorithms.isSum2SumCantBeNegative(numbers, 10));
+	assertTrue(Algorithms.isSum2SumCantBeNegative(numbers, 0));
+	assertTrue(Algorithms.isSum2SumCantBeNegative(numbers, 130));
 
-	assertFalse(Algorithms.isSum2(numbers, 300));
-	assertFalse(Algorithms.isSum2(numbers, 24));
+	assertFalse(Algorithms.isSum2SumCantBeNegative(numbers, 300));
+	assertFalse(Algorithms.isSum2SumCantBeNegative(numbers, 24));
+	
+	short[] array3 = {30000, 1, 5, 2, 10000, 0, 500,0};
+	assertTrue(Algorithms.isSum2SumCantBeNegative(array3, (short)30000));
+	assertTrue(Algorithms.isSum2SumCantBeNegative(array3, (short)7));
+	assertFalse(Algorithms.isSum2SumCantBeNegative(array3, (short)30003));
+	assertFalse(Algorithms.isSum2SumCantBeNegative(array3, (short)8));
+	
+	// sum can be negative
+	short[] array4 = {30000, 1, 5, 2, 10000, 0, 500,0, Short.MAX_VALUE};
+	assertTrue(Algorithms.isSum2SumCanBeNegative(array3, (short)30000));
+	assertTrue(Algorithms.isSum2SumCanBeNegative(array3, (short)7));
+	assertFalse(Algorithms.isSum2SumCanBeNegative(array3, (short)30003));
+	assertFalse(Algorithms.isSum2SumCanBeNegative(array3, (short)8));
+	assertTrue(Algorithms.isSum2SumCanBeNegative(array4, Short.MIN_VALUE));
 	}
+	
+	
 	
 	@Test
 	void testGetMaxPositiveWithNegativeReflect() {
 		assertEquals(80, Algorithms.getMaxPositiveWithNegativeReflect(numbers2));
 		assertEquals(-1, Algorithms.getMaxPositiveWithNegativeReflect(numbers));
+		
+		short[] array3 = {1, 1, 1, -1, 20, 100,200, 100 -100, -100, -20, -40, 80};
+		short[] array4 = {-40, 1, -40, -6, 2, 3, 40};
+		short[] array5 = {40, 1, 2, 3, 40, -30};
+		assertEquals(100,
+				Algorithms.getMaxPositiveWithNegativeReflect(array3));
+		assertEquals(40,
+				Algorithms.getMaxPositiveWithNegativeReflect(array4));
+		assertEquals(-1,
+				Algorithms.getMaxPositiveWithNegativeReflect(array5));
+		
 	}
 	
 	@Test
@@ -77,7 +106,34 @@ private void createArraysForTest(int size) {
 		Algorithms.bubbleSortShortsPositive(randomArray);
 		assertArrayEquals(randomArray, sortedArray);
 
+	}
 	
+	
+	@Test
+	@Disabled
+	void maxValueComplexityNTest() {
+		assertEquals(Long.MAX_VALUE, getMaxValueComplexityN());
+	}
+	@Test
+	void maxValueComplexityLogNTest() {
+		assertEquals(Long.MAX_VALUE, getMaxValueComplexityLogN());
+	}
+	//after overflowing it`ll be max negative, so we just take previous value  
+	private Long getMaxValueComplexityN() {
+		long res = 1;
+	
+		while(res > 0) {
+			res++;
+		}
+		return res - 1;
+	}
+	//we can multiplication by 2 (because of binary system, last figure always EVEN)    
+	private Long getMaxValueComplexityLogN() {
+		long res = 1;
+		while(res > 0) {
+			res *= 2;
+		}
+		return res - 1;
 	}
 	
 	

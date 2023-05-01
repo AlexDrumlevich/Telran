@@ -1,5 +1,6 @@
 package drumlevich.algorithms;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class Algorithms {
@@ -45,18 +46,23 @@ public class Algorithms {
 		}
 		
 		//for values > 0 
-		public static boolean isSum2(short[] array, int sum) {
+		//sum - int, so it could`t be negative (if we use short it can overflow so can be negative)
+		public static boolean isSum2SumCantBeNegative(short[] array, int sum) {
 			//returns true if there are two numbers in the given array,
 			// sum of which equals the given sum value
 			//otherwise false
 	
 			//if true => we met value in array (element value in array = index value in helper) earlier
-			boolean[] helper = new boolean[Short.MAX_VALUE];
-	
+			//boolean[] helper = new boolean[Short.MAX_VALUE];
+			//sum + 1 - because each of parts of this sum can`t be more this sum (max of one of the part = sum, so second part = 0)
+			boolean[] helper = new boolean[sum + 1];
 			
 			for(int i = 0; i < array.length; i++) {
+				if(sum < array[i]) {
+					continue;
+				}
 				//if element < sum   and   we have value - difference (sum - element) in helper
-				if(helper[Math.abs(sum - array[i])] && sum - array[i] >= 0) {
+				if(helper[sum - array[i]] && sum - array[i] >= 0) {
 					return true;
 				} else {
 					helper[array[i]] = true;
@@ -64,6 +70,45 @@ public class Algorithms {
 			}
 			return false;
 		}
+		
+		
+		//for values > 0 
+		//sum - int, so it could`t be negative (if we use short it can overflow so can be negative)
+		public static boolean isSum2SumCanBeNegative(short[] array, short sum) {
+			
+			//array of the positive short numbers
+			//returns true if there are two numbers in the given array,
+			//sum of which equals the given sum value
+			//otherwise false
+			//if true => we met value in array (element value in array = index value in helper) earlier
+			
+			// size for helper - we don`t need more then sum (if it positive, because 
+			//this sum could consist of 2 value that are less, so we won`t handle value more then sum
+			//but if sum is negative, so one of value could be max of short, so we get size Short.MAX_VALUE + 1 (because of
+			//starting from zero
+			int helperSize = sum < 0 ? Short.MAX_VALUE + 1 : sum + 1;
+			boolean[] helper = new boolean[helperSize];
+			boolean res = false;
+			//start index
+			int index = 0;
+			//while index less then array length and we don`t find 2 values witch give sum  
+			while (index < array.length && !res) {
+				short value = array[index];
+				short secondValue =  (short) (sum - value);
+				//second value can be negative( for ex. sum = - 30000, and value 10, so it will be -30010), and if it is negative -
+				//it`s not that we looking for (incoming array can`t contain negative values) 
+				if (secondValue >= 0) {
+					if (helper[secondValue]) {
+						res = true;
+					} else {
+						helper[value] = true;
+					}
+				}
+				index++;
+			}
+			return res;
+		}
+			
 		
 		
 		
@@ -105,5 +150,40 @@ public class Algorithms {
 			return maxValue;
 			
 		}
-
+		
+		
+						
+		
+		// binary search
+		public static <T> int binarySearch(T [] array, T key,
+				Comparator<T> comp) {
+			//left index in the beginning - first (0) index in the array
+			int leftIndex = 0;
+			//right index in the beginning - max index in the array
+			int rightIndex = array.length - 1;
+			//middle
+			int middleIndex = rightIndex / 2;
+			//comparable result
+			int compRes = 0;
+			while(leftIndex <= rightIndex &&
+					(compRes = comp.compare(key, array[middleIndex] )) != 0) {
+				if (compRes > 0) {
+					//move to right part of the array, because key more then middle
+					//middleIndex + 1 because we`ve already check middle
+					leftIndex = middleIndex + 1;
+				} else {
+					//move to right part of the array, because key less then middle
+					//middleIndex - 1 because we`ve already check middle
+					rightIndex = middleIndex - 1;
+				}
+				//new middle
+				middleIndex = (leftIndex + rightIndex) / 2;
+				
+			}
+			//if we get leftIndex > rightIndex so cycle finished and we didn`t find searched element
+			//else, return middle, because only if comparable middle and key we can get 0 (equals)
+			return leftIndex > rightIndex ? -1 : middleIndex;
+		}
+	
+	
 	}
