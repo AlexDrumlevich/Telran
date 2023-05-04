@@ -138,7 +138,24 @@ private void createArraysForTest(int size) {
 		return res - 1;
 	}
 	
+	//binary searching tests
 	
+		@Test
+		void binarySearchTest() {
+			Integer ar[] = { 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 20, 40 };
+			assertEquals(-14, Algorithms.binarySearch(ar, 3, Integer::compare));
+			assertEquals(3, Algorithms.binarySearch(ar, 2, Integer::compare ));
+			assertEquals(-1, Algorithms.binarySearch(ar, 0, Integer::compare));
+			assertEquals(13, Algorithms.binarySearch(ar, 4, Integer::compare));
+			assertEquals(0, Algorithms.binarySearch(ar, 1, Integer::compare));
+			assertEquals(-16, Algorithms.binarySearch(ar, 25, Integer::compare));
+			assertEquals(-17, Algorithms.binarySearch(ar, 45, Integer::compare));
+		
+			Integer ar2[] = {1, 1, 1, 2, 3, 3, 3};
+			assertEquals(3, Algorithms.binarySearch(ar2, 2, Integer::compare));
+		}
+
+		
 	//binary searching tests
 	@Test
 	void testBinarySearchWithExpandedReturn() {

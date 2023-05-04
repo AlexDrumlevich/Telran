@@ -185,6 +185,29 @@ public class Algorithms {
 		return leftIndex > rightIndex ? -1 : middleIndex;
 	}
 
+	//binary search by Yuri
+	
+		public static <T> int binarySearch(T[] array, T key, Comparator<T> comp) {
+			int left = 0;
+			int right = array.length - 1;
+			int middle = right / 2;
+			//check if left not equal 0 and left less then right, but inside while we still check middle 
+			while (left <= right && comp.compare(key, array[left])!= 0) {
+				if (comp.compare(key, array[middle]) <= 0) {
+					// if right points at the leftmost key, we move right index to the left from 
+					//the leftmost key, but then we anyway will  move left index to the right and it will point at 
+					//the leftmost key
+					right = middle - 1;
+				} else {
+					left = middle + 1;
+				}
+				middle = (right + left) / 2;
+			}
+			//left < array.length - because it may be that our left will go beyond of array length
+			//if left equals key => we return, if not => left shot at the place, where searched element should be included (we return negative left - 1 because of if for 0 we return -1) 
+			return left < array.length && comp.compare(key, array[left])== 0 ?
+					left : -left - 1;
+		}
 	
 	
 	//binary searching where:
