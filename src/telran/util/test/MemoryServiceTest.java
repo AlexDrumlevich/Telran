@@ -12,6 +12,7 @@ public class MemoryServiceTest {
 	void test() {
 		
 		int size = MemoryService.getMaxAvailableSize();
+		System.out.println(size);
 		array = new byte[size];
 		boolean flException = false;
 		
@@ -23,4 +24,9 @@ public class MemoryServiceTest {
 		}
 		assertTrue(flException);
 	}
+
+
+
 }
+
+

@@ -1,5 +1,7 @@
 package drumlevich.algorithms;
 
+import java.awt.print.Printable;
+
 public class MemoryService {
 	public static int getMaxAvailableSize() {
 		
@@ -8,15 +10,14 @@ public class MemoryService {
 		int middle = getMiddle(leftBorderSize, rightBorderSize);
 		
 		//while our right border not point at available size 
-		while (!isMemoryAvailable(rightBorderSize)) {
+		while (leftBorderSize <= rightBorderSize){//!isMemoryAvailable(rightBorderSize)) {
 		
 			if(isMemoryAvailable(middle)) {
 				leftBorderSize = middle + 1;
-				middle = getMiddle(leftBorderSize, rightBorderSize);
 			} else {
 				rightBorderSize = middle - 1;
-				middle = getMiddle(leftBorderSize, rightBorderSize);
 			}
+			middle = getMiddle(leftBorderSize, rightBorderSize);
 		}
 		return rightBorderSize;
 	}
@@ -40,6 +41,39 @@ public class MemoryService {
 	private static int getMiddle(int leftBorderSize, int rightBorderSize) {
 		int middle = (leftBorderSize / 2) + (rightBorderSize / 2);
 		return (leftBorderSize % 2 != 0 && rightBorderSize % 2 != 0) ? middle + 1 : middle;	
+	}
+	
+	//realization by V.R.
+					  
+	public static int getMaxAvailableSize2() {
+//		long maxHeap = Runtime.getRuntime().maxMemory();
+//		int right = maxHeap>Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)maxHeap;
+		int right = Integer.MAX_VALUE;
+		System.out.println("right = " + right + " MAX=" + Integer.MAX_VALUE);
+		int maxAvailableMemory=0;
+		int left = 1;
+		int middle = 0;
+		//we can declare and initialize array inside while
+		//byte ar[] = null;
+		while (left <= right) {
+			middle = (int) ((left + (long)right) / 2);
+			try {
+				byte[] ar = new byte[middle];
+				//this value will be returned
+				//if new middle(witch calculate in the beginning of the  won`t pass
+				//current method return previous middle, witch keep in maxAvailableMemory
+				//or we can return right instead
+				maxAvailableMemory = middle;
+				left = middle + 1;
+			} catch (OutOfMemoryError e) {
+				right = middle - 1;
+			}
+		
+	
+		}
+
+		return maxAvailableMemory;
+		 
 	}
 	
 }

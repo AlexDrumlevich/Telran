@@ -153,7 +153,7 @@ public class Algorithms {
 
 
 	//BINARY SEARCHING
-
+	/*
 	// binary search
 	public static <T> int binarySearch(T [] array, T key,
 			Comparator<T> comp) {
@@ -184,6 +184,7 @@ public class Algorithms {
 		//else, return middle, because only if comparable middle and key we can get 0 (equals)
 		return leftIndex > rightIndex ? -1 : middleIndex;
 	}
+	*/
 
 	//binary search by Yuri
 	
